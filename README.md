@@ -1,4 +1,8 @@
-## Casting Agency Specifications
+## Capstone Project
+The project will create a web app for Casting Agency users. The fronend UI will be based on AngularJS, Bootstrap, JavaScript, HTML/CSS
+and backend will be developed by using Python3.7.0, Flask and PostgreSQL database.
+
+### Casting Agency Specifications
 The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer within the company and are creating a system to simplify and streamline your process.
 
 ### Models:
