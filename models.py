@@ -22,7 +22,7 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     migrate = Migrate(app, db)
 
-    # db.create_all() use migrate
+    db.create_all()  # 'use migrate
 
 
 '''
