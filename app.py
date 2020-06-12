@@ -11,18 +11,10 @@ from auth import AuthError, requires_auth
 
 def create_app():
     app = Flask(__name__)
-
     setup_db(app)
     CORS(app)
 
-
-# db_drop_and_create_all()
 # ROUTES
-
-
-    @app.route('/')
-    def login():
-        return render_template("login.html")
 
     @app.route('/actors')
     @requires_auth('get:actors')

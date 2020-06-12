@@ -1,12 +1,19 @@
 import os
+from dotenv import load_dotenv
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-#from flask import request, _request_ctx_stack, abort
+# from flask import request, _request_ctx_stack, abort
 
 from app import create_app
-from models import setup_db, Movie, Actor, relation
+from models import setup_db, Movie, Actor, relation, db
 from auth import get_token_auth_header, check_permissions, verify_decode_jwt
+
+load_dotenv()
+token = os.environ.get("api-token")
+casting_assitant_token = os.environ.get("casting_assitant_token")
+casting_director_token = os.environ.get("casting_director_token")
+excutive_producer_token = os.environ.get("excutive_producer_token")
 
 
 class CapstoneTestCase(unittest.TestCase):
@@ -19,17 +26,17 @@ class CapstoneTestCase(unittest.TestCase):
         self.database_name = "capstone_test"
         self.database_path = "postgresql://{}@{}/{}".format(
             'postgres:temp101', 'localhost:5432', self.database_name)
-        setup_db(self.app, self.database_path)
 
         # binds the app to the current context
         with self.app.app_context():
-            self.db = SQLAlchemy()
+            self.db = db
+            setup_db(self.app, self.database_path)
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
 
         self.new_movie = {
-            "title": "Dragon Den",
+            "title": "Dragon Den2",
             "release_date": "20-07-2020"
         }
 
@@ -39,35 +46,46 @@ class CapstoneTestCase(unittest.TestCase):
             "gender": "Male"
         }
 
-        # self.movie_actors = {
-        #     "actors": [1, 2]
-        # }
-
     def tearDown(self):
-        """Executed after reach test"""
-        pass
+        """Executed after each test"""
+        self.db.drop_all()
 
     """
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
 
-    # def test_login_request(self):
-    #     # credentials = {“username”:”un”, “password”:”pass”}
-    #     headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVIMFEwOXJDU1phV1djYWpmdU52RCJ9.eyJpc3MiOiJodHRwczovL2Rldi1rYWpiZ2trNS5ldS5hdXRoMC5jb20vIiwic3ViIjoia1ZCUmR3S2JtdTMydTkxeWJ2VWs1S2w1dGpuU2ZLU2JAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMCIsImlhdCI6MTU5MTg4NjMyNCwiZXhwIjoxNTkxOTcyNzI0LCJhenAiOiJrVkJSZHdLYm11MzJ1OTF5YnZVazVLbDV0am5TZktTYiIsInNjb3BlIjoiZ2V0Om1vdmllcyBwb3N0Om1vdmllcyBwYXRjaDptb3ZpZXMgZGVsZXRlOm1vdmllcyBnZXQ6YWN0b3JzIHBvc3Q6YWN0b3JzIHBhdGNoOmFjdG9ycyBkZWxldGU6YWN0b3JzIGdldDptb3ZpZXNfYWN0b3JzIHBhdGNoOm1vdmllc19hY3RvcnMiLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6bW92aWVzIiwicG9zdDptb3ZpZXMiLCJwYXRjaDptb3ZpZXMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsInBvc3Q6YWN0b3JzIiwicGF0Y2g6YWN0b3JzIiwiZGVsZXRlOmFjdG9ycyIsImdldDptb3ZpZXNfYWN0b3JzIiwicGF0Y2g6bW92aWVzX2FjdG9ycyJdfQ.JL_3JXjk0gRbJGZWD3VKEWOFiXoAsLC7r3ADP9FhP_Uaxlog61-NZzjhGQFVvKks7oSEmWVCzHntvXcyasfQtEHIFDLcBoKSW409iyfdupiAlczvX_TuLuxd6KGgSJkoEUAnLx6G5p69Ng1oZPXWzmcD-x9NmTrG5K5E6nC57H-b0hped7x8RqA10EF0sXTdTtrK2xPzdvX8QO4PAS9RdhGwJqiSKvrcLs65g22lynMf9fq6pd-ZsjYKu_gwTrt9JFcEf3MBzH3leDmVTjhdUXqYpumU60AJ-DsIxkpqlniQI4TKQ8m1DZ8gkQYI31ULhB_-KE31Qzq9d3AiUUdtWg'}
-    #     resp = requests.get('http://localhost:5000/movies', headers=headers)
-    #     # print(resp)
-    #     data = (resp.__dict__)
-    #     print(data)
-    #     self.assertEqual(resp.status_code, 200)
-    #self.assertEqual(resp.success, true)
-
-    def test_get_movies(self):
-        headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVIMFEwOXJDU1phV1djYWpmdU52RCJ9.eyJpc3MiOiJodHRwczovL2Rldi1rYWpiZ2trNS5ldS5hdXRoMC5jb20vIiwic3ViIjoia1ZCUmR3S2JtdTMydTkxeWJ2VWs1S2w1dGpuU2ZLU2JAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly8xMjcuMC4wLjE6NTAwMCIsImlhdCI6MTU5MTg4NjMyNCwiZXhwIjoxNTkxOTcyNzI0LCJhenAiOiJrVkJSZHdLYm11MzJ1OTF5YnZVazVLbDV0am5TZktTYiIsInNjb3BlIjoiZ2V0Om1vdmllcyBwb3N0Om1vdmllcyBwYXRjaDptb3ZpZXMgZGVsZXRlOm1vdmllcyBnZXQ6YWN0b3JzIHBvc3Q6YWN0b3JzIHBhdGNoOmFjdG9ycyBkZWxldGU6YWN0b3JzIGdldDptb3ZpZXNfYWN0b3JzIHBhdGNoOm1vdmllc19hY3RvcnMiLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMiLCJwZXJtaXNzaW9ucyI6WyJnZXQ6bW92aWVzIiwicG9zdDptb3ZpZXMiLCJwYXRjaDptb3ZpZXMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsInBvc3Q6YWN0b3JzIiwicGF0Y2g6YWN0b3JzIiwiZGVsZXRlOmFjdG9ycyIsImdldDptb3ZpZXNfYWN0b3JzIiwicGF0Y2g6bW92aWVzX2FjdG9ycyJdfQ.JL_3JXjk0gRbJGZWD3VKEWOFiXoAsLC7r3ADP9FhP_Uaxlog61-NZzjhGQFVvKks7oSEmWVCzHntvXcyasfQtEHIFDLcBoKSW409iyfdupiAlczvX_TuLuxd6KGgSJkoEUAnLx6G5p69Ng1oZPXWzmcD-x9NmTrG5K5E6nC57H-b0hped7x8RqA10EF0sXTdTtrK2xPzdvX8QO4PAS9RdhGwJqiSKvrcLs65g22lynMf9fq6pd-ZsjYKu_gwTrt9JFcEf3MBzH3leDmVTjhdUXqYpumU60AJ-DsIxkpqlniQI4TKQ8m1DZ8gkQYI31ULhB_-KE31Qzq9d3AiUUdtWg'}
+    def test_header_missing(self):
+        headers = {}
         res = self.client().get('/movies', headers=headers)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data, {
+            'code': 'authorization_header_missing',
+            'description': 'Authorization header is expected.'
+        })
+
+    def test_header_no_bearer(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'afsafsg'}
+        res = self.client().get('/movies', headers=headers)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data, {
+            'code': 'invalid_header',
+            'description': "Authorization header must start with 'Bearer'."
+        })
+
+    def test_header_invalid_header(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'Bearer ewreewys'}
+        res = self.client().get('/movies', headers=headers)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data, {
+            'code': 'invalid_header',
+            'description': 'Unable to find appropriate token'
+        })
 
     def test_405_error_get_movies(self):
         res = self.client().get('/movies/1000')
@@ -76,7 +94,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Method not allowed")
 
-    def test_404_error_get_paginated_questions(self):
+    def test_404_error(self):
         res = self.client().get('/adsatete')
         data = json.loads(res.data)
 
@@ -84,6 +102,78 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Not found")
 
+    '''
+    Role based test
+    '''
+
+    def test_executive_producer_success(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'Bearer {}'.format(excutive_producer_token)}
+        res = self.client().post('/movies', headers=headers, json=self.new_movie)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_casting_director_success(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'Bearer {}'.format(casting_director_token)}
+        res = self.client().post('/actors', headers=headers, json=self.new_actor)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_casting_assitant_success(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'Bearer {}'.format(casting_assitant_token)}
+        res = self.client().get('/actors', headers=headers)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_casting_assitant_permission_fail(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'Bearer {}'.format(casting_assitant_token)}
+        res = self.client().post('/actors', headers=headers, json=self.new_actor)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data, {
+            "code": "unauthorized",
+            "description": "Permission not found."
+        })
+
+    def test_casting_director_permission_fail(self):
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': 'Bearer {}'.format(casting_director_token)}
+        res = self.client().post('/movies', headers=headers, json=self.new_movie)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 403)
+        self.assertEqual(data, {
+            "code": "unauthorized",
+            "description": "Permission not found."
+        })
+
+    # def test_casting_director_success(self):
+    #     headers = {'Content-Type': 'application/json',
+    #                'Authorization': 'Bearer {}'.format(casting_director_token)}
+    #     res = self.client().delete('/actors/1', headers=headers)
+    #     data = json.loads(res.data)
+    #     if res.status_code == 200:
+    #         self.assertEqual(res.status_code, 200)
+    #         self.assertEqual(data['success'], True)
+    #     else:
+    #         self.assertEqual(res.status_code, 422)
+    #         self.assertEqual(data['success'], False)
+
+    # def test_casting_assitant_permission_fail(self):
+    #     headers = {'Content-Type': 'application/json',
+    #                'Authorization': 'Bearer {}'.format(casting_assitant_token)}
+    #     res = self.client().post('/actors', headers=headers, json=self.new_actor)
+    #     data = json.loads(res.data)
+    #     self.assertEqual(res.status_code, 403)
+    #     self.assertEqual(data, {
+    #         "code": "unauthorized",
+    #         "description": "Permission not found."
+    #     })
     # def test_get_all_categories(self):
     #     res = self.client().get('/categories')
     #     data = json.loads(res.data)
