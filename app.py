@@ -17,7 +17,7 @@ def create_app():
 # ROUTES
     @APP.route('/', methods=['POST', 'GET'])
     def health():
-    return jsonify("Healthy")
+        return jsonify("Healthy")
 
     @app.route('/actors')
     @requires_auth('get:actors')
