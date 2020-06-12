@@ -15,7 +15,7 @@ def create_app():
     CORS(app)
 
 # ROUTES
-    @APP.route('/', methods=['POST', 'GET'])
+    @app.route('/', methods=['POST', 'GET'])
     def health():
         return jsonify("Healthy")
 
