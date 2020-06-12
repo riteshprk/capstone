@@ -15,6 +15,9 @@ def create_app():
     CORS(app)
 
 # ROUTES
+    @app.route('/')
+    def home():
+        return jsonify({'Healthy'})
 
     @app.route('/actors')
     @requires_auth('get:actors')
@@ -222,7 +225,6 @@ def create_app():
 
 
 # # Error handler
-
 
     @app.errorhandler(AuthError)
     def handle_auth_error(ex):
