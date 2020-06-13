@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 #database_name = "capstone"
-database_path = os.environ['DATABASE_URL']
-
+#database_path = os.environ['DATABASE_URL']
+database_path = "postgres://vszpbdrdkjpqmr:caaa62f039d2f3892b767609804e269e43ef0ea2e2494f62ceed8ca48beded6f@ec2-54-75-246-118.eu-west-1.compute.amazonaws.com:5432/d9of6292e5hv5f"
 
 '''
 setup_db(app)
