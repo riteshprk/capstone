@@ -1,5 +1,9 @@
 ### Capstone Project
+
+[Heroku Link](https://capstoneapps.herokuapp.com/)
+
 The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer within the company and are creating a system to simplify and streamline your process.
+
 
 ### Models:
  - Movies with attributes title and release date
@@ -65,170 +69,125 @@ To run the server, execute:
 python app.py
 ```
 
-## Endpoints examples
+## Endpoints illustration
 
 Following is the list of all available endpoints. 
 
 ### GET '/movies'
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+- Returns: Key, value pair of movies in which the keys are the id, title and release_date.
 - Request Arguments: None
-- Returns: An object with a single key, movies, that contains a object of id: movie_string key:value pairs.
 ``` 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+{
+    "movies": [
+        {
+            "id": 1,
+            "release_date": "Sun, 28 Jun 2020 00:00:00 GMT",
+            "title": "dragons action"
+        },
+        {
+            "id": 2,
+            "release_date": "Wed, 22 Jul 2020 00:00:00 GMT",
+            "title": "dive deep"
+        },
+        {
+            "id": 3,
+            "release_date": "Sat, 12 Sep 2020 00:00:00 GMT",
+            "title": "house leader"
+        },
+        {
+            "id": 4,
+            "release_date": "Sun, 11 Oct 2020 00:00:00 GMT",
+            "title": "captain murugan"
+        },
+        {
+            "id": 5,
+            "release_date": "Thu, 12 Nov 2020 00:00:00 GMT",
+            "title": "The cycle of amusement"
+        }
+    ],
+    "success": true
+}
 ```
 
-### GET '/questions'
-- Fetches a dictionary of question in which the keys are the id, question, answer, category and difficulty and their corresponding value are returned. This also fetches the dictionary of categories as explained above.
+### GET '/actors'
+- Returns: Key, value pair of actors in which the keys are the id, name, gender and age.
 - Request Arguments: None
-- Returns: All dictionary objects of question containing keys/value pairs for id, question, answer, category, difficulty. It will also return total question count and current category value.
 
 ```
 {
-  "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
-  },
-  "current_category": null,
-
-  "questions": [
-    {
-      "answer": "Maya Angelou",
-      "category": 4,
-      "difficulty": 2,
-      "id": 5,
-      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
-    },
-    {
-      "answer": "Muhammad Ali",
-      "category": 4,
-      "difficulty": 1,
-      "id": 9,
-      "question": "What boxer's original name is Cassius Clay?"
-    },
-    {
-      "answer": "Tom Cruise",
-      "category": 5,
-      "difficulty": 4,
-      "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her be
-loved Lestat?"
-    },
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man w
-ith multi-bladed appendages?"
-    },
-    {
-      "answer": "Brazil",
-      "category": 6,
-      "difficulty": 3,
-      "id": 10,
-      "question": "Which is the only team to play in every soccer World Cup tournament?"
-    },
-    {
-      "answer": "Uruguay",
-      "category": 6,
-      "difficulty": 4,
-      "id": 11,
-      "question": "Which country won the first ever soccer World Cup in 1930?"
-    },
-    {
-      "answer": "George Washington Carver",
-      "category": 4,
-      "difficulty": 2,
-      "id": 12,
-      "question": "Who invented Peanut Butter?"
-    },
-    {
-      "answer": "Lake Victoria",
-      "category": 3,
-      "difficulty": 2,
-      "id": 13,
-      "question": "What is the largest lake in Africa?"
-    },
-    {
-      "answer": "The Palace of Versailles",
-      "category": 3,
-      "difficulty": 3,
-      "id": 14,
-      "question": "In which royal palace would you find the Hall of Mirrors?"
-    },
-    {
-      "answer": "Escher",
-      "category": 2,
-      "difficulty": 1,
-      "id": 16,
-      "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
-
-    }
-  ],
-  "success": true,
-  "total_questions": 17
+    "actors": [
+        {
+            "age": "39",
+            "gender": "male",
+            "id": 1,
+            "name": "jack taylor5"
+        },
+        {
+            "age": "39",
+            "gender": "male",
+            "id": 2,
+            "name": "jack taylor"
+        },
+        {
+            "age": "30",
+            "gender": "female",
+            "id": 3,
+            "name": "angela faylor"
+        },
+        {
+            "age": "35",
+            "gender": "female",
+            "id": 4,
+            "name": "andrea taylor"
+        },
+        {
+            "age": "38",
+            "gender": "female",
+            "id": 5,
+            "name": "kangna ranaut"
+        }
+    ],
+    "success": true
 }
 
 ```
-### GET '/categories/id/questions'
-- Fetches a dictionary of question for given category id.
-- Request Arguments: id. Example: /categories/2/questions. To fetch questions for category 2.
-- Returns: All dictionary objects of question containing keys/value pairs for id, question, answer, category, difficulty. It will also return total question count for the given category and current category value.
-
+### GET '/movies/id/actors'
+- Returns: It returns the key, value pair of actors playing in the given movie id. It also return the key, value pair of the given movie id . 
+- Request Arguments: movie id
 ```
 {
-  "current_category": 2,
-  "questions": [
-    {
-      "answer": "Escher",
-      "category": 2,
-      "difficulty": 1,
-      "id": 16,
-      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
-
+    "actors": [
+        {
+            "age": "39",
+            "gender": "male",
+            "id": 2,
+            "name": "jack taylor"
+        },
+        {
+            "age": "30",
+            "gender": "female",
+            "id": 3,
+            "name": "angela faylor"
+        }
+    ],
+    "movie": {
+        "id": 2,
+        "release_date": "Wed, 22 Jul 2020 00:00:00 GMT",
+        "title": "dive deep"
     },
-    {
-      "answer": "Mona Lisa",
-      "category": 2,
-      "difficulty": 3,
-      "id": 17,
-      "question": "La Giaconda is better known as what?"
-    },
-    {
-      "answer": "One",
-      "category": 2,
-      "difficulty": 4,
-      "id": 18,
-      "question": "How many paintings did Van Gogh sell in his lifetime?"
-    },
-    {
-      "answer": "Jackson Pollock",
-      "category": 2,
-      "difficulty": 2,
-      "id": 19,
-      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading expo
-nent of action painting?"
-    }
-  ],
-  "success": true,
-  "total_questions": 4
+    "success": true
 }
 
 ```
-### DELETE '/questions/id'
-- Deletes a question record from the database for given category id.
-- Request Arguments: id. Example: /questions/10. To delete question record whose id is 10.
-- Returns: The deleted question dictionary key/value pairs. It also returns total question count in the database.
-
+### PATCH '/movies/id/actors'
+- Returns: It returns the updated key, value pair of actors playing in the given movie id. It also return the key, value pair of the given movie id . 
+- Request Arguments: movie id, json body object containing actors id list as:
+```
+{
+  actors: [1, 2]
+}
+```
+response:
 ```
 {
   "Question deleted": {
@@ -243,128 +202,89 @@ nent of action painting?"
 }
 
 ```
-### POST '/questions'
-- Add new dictionary of question key/value pairs in database.
-- Request Arguments: json body object containing question, answer, category and difficulty as key parameters with coresponding values.
-- Returns: All dictionary objects of questions containing keys/value pairs for id, question, answer, category, difficulty. It also returns added question id and total question count value.
+### POST '/movies'
+- Add new dictionary of movies key/value pairs in database.
+- Request Arguments: json body object containing movies key/value pairs as shown below:
 ```
 {
-  "created": 111,
-  "questions": [
-    {
-      "answer": "Tom Cruise",
-      "category": 5,
-      "difficulty": 4,
-      "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her be
-loved Lestat?"
-    },
-    {
-      "answer": "Maya Angelou",
-      "category": 4,
-      "difficulty": 2,
-      "id": 5,
-      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
-    },
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man w
-ith multi-bladed appendages?"
-    },
-    {
-      "answer": "Muhammad Ali",
-      "category": 4,
-      "difficulty": 1,
-      "id": 9,
-      "question": "What boxer's original name is Cassius Clay?"
-    },
-    {
-      "answer": "Uruguay",
-      "category": 6,
-      "difficulty": 4,
-      "id": 11,
-      "question": "Which country won the first ever soccer World Cup in 1930?"
-    },
-    {
-      "answer": "George Washington Carver",
-      "category": 4,
-      "difficulty": 2,
-      "id": 12,
-      "question": "Who invented Peanut Butter?"
-    },
-    {
-      "answer": "Lake Victoria",
-      "category": 3,
-      "difficulty": 2,
-      "id": 13,
-      "question": "What is the largest lake in Africa?"
-    },
-    {
-      "answer": "The Palace of Versailles",
-      "category": 3,
-      "difficulty": 3,
-      "id": 14,
-      "question": "In which royal palace would you find the Hall of Mirrors?"
-    },
-    {
-      "answer": "Escher",
-      "category": 2,
-      "difficulty": 1,
-      "id": 16,
-      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+  "title": "captain murugan",
+  "release_date": "2020-10-11"
+}
+```
+- Returns: Newly added dictionary objects of movies containing keys/value pairs for id, title, release_date.
 
+```
+{
+    "movies": {
+      "id": 4,
+      "release_date": "Sun, 11 Oct 2020 00:00:00 GMT",
+      "title": "captain murugan"
     },
-    {
-      "answer": "Mona Lisa",
-      "category": 2,
-      "difficulty": 3,
-      "id": 17,
-      "question": "La Giaconda is better known as what?"
-    }
-  ],
-  "success": true,
-  "total questions": 17
+    "success": true
 }
 ```
-### POST '/search'
-- Fetch dictionary of questions whose question value contains search term.
-- Request Arguments: json body object containing "searchTerm" key/value pairs.
-- Returns: Dictionary objects of questions containing keys/value pairs for id, question, answer, category, difficulty where question value contains search term. It also returns total question count value. For example: "searchTerm":"body" return following result.
+### POST '/actors'
+- Add new dictionary of actor key/value pairs in database.
+- Request Arguments: json body object containing actor key/value pairs as shown below:
 ```
 {
-  "questions": [
-    {
-      "answer": "The Liver",
-      "category": 1,
-      "difficulty": 4,
-      "id": 20,
-      "question": "What is the heaviest organ in the human body?"
-    }
-  ],
-  "success": true,
-  "total questions": 1
+  "name": "jack taylor",         
+  "age": "39",         
+  "gender": "male"         
 }
 ```
-### POST '/quizzes'
-- Fetch dictionary of question for selected category.
-- Request Arguments: json body object containing quiz category id and type key/value pairs and previous questions list value. See the example below.
-```
-{"quiz_category":{"id":"1", "type":"science"}, "previous_questions":[]}
-```
-- Returns: Dictionary objects of question containing keys/value pairs for id, question, answer, category, difficulty.
+- Returns: Newly added dictionary objects of actor containing keys/value pairs for id, name, age and gender.
+
 ```
 {
-  "question": {
-    "answer": "98 %",
-    "category": 1,
-    "difficulty": 4,
-    "id": 110,
-    "question": "Humans and chimpanzees share roughly how much DNA?"
-  },
-  "success": true
+    "actor": {
+        "age": "39",
+        "gender": "male",
+        "id": 2,
+        "name": "jack taylor"
+    },
+    "success": true
+}
+```
+### PATCH '/movies/id'
+- Modify dictionary of movies value in database.
+- Request Arguments: movie id and json body object containing  movies key/value pairs whose modification is required either one key value pair or both.
+```
+{
+    "release_date": "2020-10-22"
+}
+```
+- Returns: Newly modified dictionary objects of movies containing keys/value pairs for id, title, release_date.
+
+```
+{
+    "movies": {
+      "id": 4,
+      "release_date": "Thu, 22 Oct 2020 00:00:00 GMT",
+      "title": "captain murugan"
+    },
+    "success": true
+}
+```
+### PATCH '/actors/id'
+- Modify dictionary of actor value in database.
+- Request Arguments: actor id and json body object containing  movies key/value pairs whose modification is required either one key value pair or all.
+```
+{
+    "name": "mark james"
+}
+```
+- Returns: Newly modified dictionary objects of actor containing keys/value pairs for id, name, age, andd gender.
+
+```
+{
+    "actor": {
+        "age": "39",
+        "gender": "male",
+        "id": 1,
+        "name": "mark james"
+    },
+    "success": true
 }
 ```
 ## HTTP Errors response.
@@ -379,10 +299,17 @@ In the event of HTTP fetch error. Following is the list of response object.
 |422 Errors 		|{"error": 422, "success": false "message": "Unprocessable"}					       |
 
 ## Testing
-To run the tests, run
+A seprate databse is configured in heroku to do the test. The sperate DATABASE_URL is provided in .env file.
+There are total 10 Test which includes role base access test and authorisation error handling.
+Please run the following script.
+To run locally 
 ```
-dropdb trivia_test
-createdb trivia_test
-psql trivia_test < trivia.psql
-python test_flaskr.py
+python test_app.py 
 ```
+To run on heroku 
+```
+heroku run python test_app.py --app capstoneapps
+```
+Please use the following heroku link to check all above enpoints
+
+[Heroku Link](https://capstoneapps.herokuapp.com/)
