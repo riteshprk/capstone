@@ -11,7 +11,7 @@ from auth import get_token_auth_header, check_permissions, verify_decode_jwt
 
 load_dotenv()
 
-database_path = os.environ['DATABASE_URL']
+database_path = os.environ['HEROKU_POSTGRESQL_COPPER_URL']
 token = os.environ.get("api-token")
 casting_assitant_token = os.environ.get("casting_assitant_token")
 casting_director_token = os.environ.get("casting_director_token")
