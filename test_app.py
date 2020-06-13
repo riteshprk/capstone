@@ -10,6 +10,8 @@ from models import setup_db, Movie, Actor, relation, db
 from auth import get_token_auth_header, check_permissions, verify_decode_jwt
 
 load_dotenv()
+
+database_path = os.environ['DATABASE_URL']
 token = os.environ.get("api-token")
 casting_assitant_token = os.environ.get("casting_assitant_token")
 casting_director_token = os.environ.get("casting_director_token")
@@ -23,8 +25,7 @@ class CapstoneTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "capstone_test"
-        self.database_path = "postgres://qqnqskavunpmlp:3c061430cd6fecdbca498694d6aad4ec05f91ab95b8ecb96a23f6623cfa9afd3@ec2-54-247-78-30.eu-west-1.compute.amazonaws.com:5432/de5ihjb8ts6v0j"
+        self.database_path = database_path
         #"postgresql://{}@{}/{}".format('postgres:temp101', 'localhost:5432', self.database_name)
 
         # binds the app to the current context
@@ -37,7 +38,7 @@ class CapstoneTestCase(unittest.TestCase):
 
         self.new_movie = {
             "title": "Dragon Den2",
-            "release_date": "20-07-2020"
+            "release_date": "2020-07-20"
         }
 
         self.new_actor = {

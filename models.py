@@ -1,8 +1,11 @@
 import os
 import json
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_moment import Moment
+
+load_dotenv()
 
 database_path = os.environ['DATABASE_URL']
 
