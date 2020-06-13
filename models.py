@@ -2,6 +2,7 @@ import os
 import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_moment import Moment
 
 #database_name = "capstone"
 #database_path = os.environ['DATABASE_URL']
@@ -20,6 +21,7 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+    moment = Moment(app)
     migrate = Migrate(app, db)
    # db.create_all()  # 'use migrate
 
