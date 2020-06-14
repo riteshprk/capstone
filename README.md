@@ -1,4 +1,4 @@
-### Cinemake Project
+### Cinemake App
 
 [Heroku Link](https://capstoneapps.herokuapp.com/)
 
